@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,10 +15,11 @@ namespace jurnal_mod6
 
         public SayaTubeVideo(string title)
         {
-            this.title = title;
-            Random randomID = new Random();
-            id = randomID.Next(10000, 99999);
-            playCount = 0;
+            Random random = new Random();
+            this.id = random.Next(10000, 100000);
+            Debug.Assert(title.Length <= 200 && title != null, "title tidak dapat dimasukkan");
+            this.title = checked(title);
+            this.playCount = 0;
 
         }
 
@@ -30,7 +32,9 @@ namespace jurnal_mod6
 
         public void IncreasePlayCount(int playCount)
         {
-            this.playCount = playCount;
+            Debug.Assert(playCount < 25000000, "play count tidak dapat ditambahkan karena lebih dari 25.000.000");
+            Debug.Assert(this.playCount + playCount < int.MaxValue, "jumlah play count melebihi batas");
+            this.playCount = checked(this.playCount + playCount); this.playCount = playCount;
         }
 
         public void PrintVideoDetails()

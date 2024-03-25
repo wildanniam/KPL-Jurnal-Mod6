@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,25 +15,26 @@ namespace jurnal_mod6
 
         public SayaTubeUser(string username)
         {
-            this.username = username;
-            Random randomID = new Random();
-            id = randomID.Next(10000, 99999);
-            uploadedVideos = new List<SayaTubeVideo>();
+            Random random = new Random();
+            this.id = random.Next(10000, 100000);
+            Debug.Assert(username.Length <= 100 && username != null, "username tidak dapat dimasukkan");
+            this.username = checked(username);
+            this.id = 0;
         }
 
         public int GetTotalVideoPlayCount()
         {
-            int nampung = 0;
+            int count = 0;
             for (int i = 0; i < uploadedVideos.Count; i++)
             {
-                nampung += uploadedVideos[i].getPlaycount();
+                count += uploadedVideos[i].getPlaycount();
             }
-            return nampung;
+            return count;
         }
 
         public void AddVideo(SayaTubeVideo video)
         {
-            uploadedVideos.Add(video);
+            this.uploadedVideos.Add(video);
         }
 
         public void PrintAllVideoPlaycount()
